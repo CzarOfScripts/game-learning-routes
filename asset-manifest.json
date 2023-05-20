@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.3b148d01.css",
+    "main.js": "/static/js/main.c1553ed8.js",
+    "static/media/consolas-700.ttf": "/static/media/consolas-700.b8b7ce4336d4dddee69e.ttf",
+    "static/media/consolas-400.ttf": "/static/media/consolas-400.252a062087ec8913016e.ttf",
+    "static/media/Vinogradiv.jpg": "/static/media/Vinogradiv.774cef66aad6acae4b49.jpg",
+    "static/media/Hust.jpg": "/static/media/Hust.a9b8cbcc94813e6c715f.jpg",
+    "static/media/Svaliava.jpg": "/static/media/Svaliava.7432d0fdfac29847199b.jpg",
+    "static/media/Beregovo.jpg": "/static/media/Beregovo.d77fc9d18cc89fb339ef.jpg",
+    "static/media/Tyachiv.jpg": "/static/media/Tyachiv.43c221c30f803d4d69bf.jpg",
+    "index.html": "/index.html",
+    "main.3b148d01.css.map": "/static/css/main.3b148d01.css.map",
+    "main.c1553ed8.js.map": "/static/js/main.c1553ed8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3b148d01.css",
+    "static/js/main.c1553ed8.js"
+  ]
+}
