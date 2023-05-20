@@ -1,0 +1,12 @@
+@font-face
+{
+	font-family: "Consolas";
+	src: url("assets/fonts/consolas-400.ttf") format("TTF"),
+		url("assets/fonts/consolas-700.ttf") format("TTF");
+}
+
+body
+{
+	background-color: #090909;
+	color: #ACACAC;
+}
