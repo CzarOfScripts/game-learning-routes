@@ -2,7 +2,7 @@
 	"name": "game-learning-routes",
 	"version": "0.1.0",
 	"private": true,
-	"homepage": "https://CzarOfScripts.github.io/game-learning-routes",
+	"homepage": "https://czarofscripts.github.io/game-learning-routes",
 	"dependencies": {
 		"@emotion/react": "^11.11.0",
 		"@emotion/styled": "^11.11.0",
