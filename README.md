@@ -1,3 +1,3 @@
-# Game: Action or Truth
+# Game: Learning routes
 
 [Open page](https://czarofscripts.github.io/game-learning-routes/)
