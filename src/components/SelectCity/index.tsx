@@ -22,8 +22,8 @@ function SelectCity()
 						key={city}
 						onClick={() => AppCtx.setSelectedCity(city as CitiesNameType)}
 						sx={{
-							height: "100px !important",
-							width: "100px",
+							height: "138px !important",
+							width: "138px !important",
 							font: "400 14px/16px Consolas !important",
 							textTransform: "uppercase !important",
 

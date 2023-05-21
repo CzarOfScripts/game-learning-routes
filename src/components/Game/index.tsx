@@ -168,13 +168,13 @@ function Game()
 			display: "flex",
 			flexDirection: "column",
 			gap: "24px",
-			width: "250px",
+			width: "300px",
 			height: "calc(100vh - 59px - (40px * 2) - 70px)",
 			margin: "0 auto"
 		}}>
 			<Box sx={{
 				position: "relative",
-				width: "250px",
+				width: "300px",
 				height: "100px",
 				borderRadius: "15px",
 				overflow: "hidden",

@@ -8,7 +8,7 @@ import { Dispatch, ReactNode, SetStateAction, createContext, useState } from "re
 function Wrapper({ children }: { children: ReactNode; })
 {
 	return (
-		<Box className="Wrapper" sx={{ maxWidth: "350px", margin: "0 auto" }}>
+		<Box className="Wrapper" sx={{ maxWidth: "300px", margin: "0 auto" }}>
 			{children}
 		</Box>
 	);

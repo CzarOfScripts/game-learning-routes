@@ -60,7 +60,7 @@ function ScoreScreen()
 				display: "flex",
 				flexDirection: "column",
 				gap: "24px",
-				maxWidth: "250px",
+				maxWidth: "300px",
 				margin: "0 auto",
 				height: "calc(100vh - 59px - (40px * 2) - 70px)",
 			}}
