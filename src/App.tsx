@@ -48,6 +48,7 @@ function App()
 					top: "0px",
 					padding: "20px",
 					textAlign: "center",
+					font: "400 16px/19px Consolas",
 					backgroundColor: "#181818"
 				}}
 			>
