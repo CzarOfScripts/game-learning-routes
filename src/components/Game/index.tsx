@@ -316,7 +316,7 @@ function Game()
 							color: "#DC4242"
 						}}
 					/>
-					{currentQuestionIndex}/{questions.length}
+					{currentQuestionIndex + 1}/{questions.length}
 				</Box>
 
 				<button
