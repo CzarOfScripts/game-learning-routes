@@ -65,10 +65,7 @@ function ScoreScreen()
 				height: "calc(100vh - 59px - (40px * 2) - 70px)",
 			}}
 		>
-			<Box sx={{
-				textAlign: "center",
-				font: "400 24px Consolas"
-			}}>
+			<Box sx={{ textAlign: "center", font: "400 24px/28px Consolas" }}>
 				{textByPercentage(percentage)}
 			</Box>
 
@@ -81,7 +78,7 @@ function ScoreScreen()
 				margin: "auto",
 				lineHeight: "96px",
 				textAlign: "center",
-				font: "400 24px/150px Consolas"
+				font: "400 24px/144px Consolas"
 			}}>
 				<CircularProgress
 					variant="determinate"
@@ -103,6 +100,7 @@ function ScoreScreen()
 			<Box sx={{
 				marginTop: "auto",
 				display: "flex",
+				alignItems: "center",
 				justifyContent: "space-between",
 				gap: "24px",
 
