@@ -1,8 +1,10 @@
-import { Box, Button, alpha } from "@mui/material";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import HomeIcon from "@mui/icons-material/Home";
+import { Box, CircularProgress, alpha } from "@mui/material";
 import { AppContext } from "App";
 import ButtonStyled from "components/ButtonStyled";
 import { CitiesNameType, data, getCityImage } from "data/data";
-import { useContext, useLayoutEffect, useState } from "react";
+import { useContext, useLayoutEffect, useRef, useState } from "react";
 import { getRandomItem, shuffleArray } from "utils";
 
 enum GameType
@@ -258,28 +260,80 @@ function Game()
 				})}
 			</Box>
 
-			<Button
-				disabled={selectedAnswer === null}
-				onClick={nextQuestion}
-				sx={{
-					marginTop: "auto",
-					height: "50px",
-					borderRadius: "20px",
-					backgroundColor: "#252525",
-					color: "#FFFFFF",
+			<Box sx={{
+				marginTop: "auto",
+				display: "grid",
+				gridTemplateColumns: "1fr 1fr 1fr",
+				alignItems: "center",
+				justifyItems: "center",
+				gap: "24px",
+
+				"> button":
+				{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					flexDirection: "column",
+					border: "unset",
+					background: "unset",
 
 					"&:disabled":
 					{
-						backgroundColor: "#151515",
-						color: "#909090"
+						cursor: "auto",
+						color: "#707070"
 					}
-				}}
-			>
-				{currentQuestionIndex < questions.length - 1
-					? "Следующий"
-					: "Завершить"
 				}
-			</Button>
+			}}>
+				<button
+					onClick={() =>
+					{
+						AppCtx.setSelectedCity(null);
+						AppCtx.setIsShowResult(false);
+					}}
+				>
+					<HomeIcon sx={{ fontSize: "56px" }} />
+					<span>Города</span>
+				</button>
+
+				<Box sx={{
+					position: "relative",
+					border: "3px solid #252525",
+					width: "60px",
+					height: "60px",
+					borderRadius: "50%",
+					textAlign: "center",
+					font: "400 14px/54px Consolas"
+				}}>
+					<CircularProgress
+						variant="determinate"
+						size={60}
+						value={Math.floor((currentQuestionIndex * 100) / questions.length)}
+						thickness={3}
+						sx={{
+							position: "absolute",
+							left: "-3px",
+							top: "-3px",
+							color: "#DC4242"
+						}}
+					/>
+					{currentQuestionIndex}/{questions.length}
+				</Box>
+
+				<button
+					disabled={selectedAnswer === null}
+					onClick={nextQuestion}
+				>
+					<ArrowForwardIcon
+						sx={{ fontSize: "56px" }}
+					/>
+					<span>
+						{currentQuestionIndex < questions.length - 1
+							? "Следующий"
+							: "Завершить"
+						}
+					</span>
+				</button>
+			</Box>
 		</Box >
 	);
 }
