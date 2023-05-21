@@ -12,7 +12,12 @@ const ButtonStyled = styled(Button)(({ disabled }) =>
 	height: "50px",
 	minHeight: "unset",
 	maxHeight: "unset",
-	borderRadius: "10px"
+	borderRadius: "10px",
+
+	"&:focus":
+	{
+		backgroundColor: (disabled === true ? "#151515" : "#252525")
+	}
 })
 );
 
