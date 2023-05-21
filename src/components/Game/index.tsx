@@ -232,6 +232,9 @@ function Game()
 					return (
 						<ButtonStyled
 							key={index}
+							disableRipple
+							disableFocusRipple
+							disableTouchRipple
 							onClick={() => selectAnswer(questions[ currentQuestionIndex ]!.answers[ index ])}
 							className={
 								isCorrectAnswer(questions[ currentQuestionIndex ]!.answers[ index ]) === 1
