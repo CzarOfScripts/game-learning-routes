@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/game-learning-routes/static/css/main.8b158525.css",
-    "main.js": "/game-learning-routes/static/js/main.796b50e4.js",
+    "main.js": "/game-learning-routes/static/js/main.e1eb7585.js",
     "static/media/consolas-700.ttf": "/game-learning-routes/static/media/consolas-700.b8b7ce4336d4dddee69e.ttf",
     "static/media/consolas-400.ttf": "/game-learning-routes/static/media/consolas-400.252a062087ec8913016e.ttf",
     "static/media/Vinogradiv.jpg": "/game-learning-routes/static/media/Vinogradiv.774cef66aad6acae4b49.jpg",
@@ -11,10 +11,10 @@
     "static/media/Tyachiv.jpg": "/game-learning-routes/static/media/Tyachiv.43c221c30f803d4d69bf.jpg",
     "index.html": "/game-learning-routes/index.html",
     "main.8b158525.css.map": "/game-learning-routes/static/css/main.8b158525.css.map",
-    "main.796b50e4.js.map": "/game-learning-routes/static/js/main.796b50e4.js.map"
+    "main.e1eb7585.js.map": "/game-learning-routes/static/js/main.e1eb7585.js.map"
   },
   "entrypoints": [
     "static/css/main.8b158525.css",
-    "static/js/main.796b50e4.js"
+    "static/js/main.e1eb7585.js"
   ]
 }
