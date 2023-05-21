@@ -17,12 +17,15 @@ type QuestionType = {
 	gameType: GameType;
 };
 
+const AUTO_NEXT_QUESTION_TIME: number = 3500;
+
 function Game()
 {
 	const AppCtx = useContext(AppContext);
 
 	const city = AppCtx.selectedCity as CitiesNameType;
 
+	const timerIdRef = useRef<NodeJS.Timeout>();
 	const [ selectedAnswer, setSelectedAnswer ] = useState<string | null>(null);
 	const [ currentQuestionIndex, setCurrentQuestionIndex ] = useState<number>(0);
 	const [ questions ] = useState<QuestionType[]>(() =>
@@ -139,10 +142,15 @@ function Game()
 		}
 
 		setSelectedAnswer(value);
+
+		clearTimeout(timerIdRef.current);
+		timerIdRef.current = setTimeout(nextQuestion, AUTO_NEXT_QUESTION_TIME);
 	}
 
 	function nextQuestion()
 	{
+		clearTimeout(timerIdRef.current);
+
 		if (selectedAnswer === questions[ currentQuestionIndex ].answer)
 		{
 			AppCtx.setResult((prevState) =>
