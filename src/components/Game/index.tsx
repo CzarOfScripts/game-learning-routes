@@ -1,10 +1,11 @@
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import FlagIcon from '@mui/icons-material/Flag';
 import HomeIcon from "@mui/icons-material/Home";
 import { Box, CircularProgress, Zoom, alpha } from "@mui/material";
 import { AppContext } from "App";
 import ButtonStyled from "components/ButtonStyled";
 import { CitiesNameType, data, getCityImage } from "data/data";
-import { useContext, useRef, useState } from "react";
+import { useContext, useLayoutEffect, useRef, useState } from "react";
 import { getRandomItem, shuffleArray } from "utils";
 
 enum GameType
@@ -42,12 +43,19 @@ function Game()
 
 		shuffleArray(array);
 
-		AppCtx.setResult([ 0, array.length ]);
-
 		return array;
 	});
 
 	const currentQuestion = questions[ currentQuestionIndex ];
+
+	// Effects
+	useLayoutEffect(() =>
+	{
+		AppCtx.setResult((prevState) =>
+		{
+			return Object.assign([], prevState, { 1: questions.length });
+		});
+	}, []); // eslint-disable-line
 
 	// Utils
 	function getRandomCity(withoutCity: CitiesNameType): CitiesNameType
@@ -268,10 +276,9 @@ function Game()
 
 			<Box sx={{
 				marginTop: "auto",
-				display: "grid",
-				gridTemplateColumns: "1fr 1fr 1fr",
+				display: "flex",
 				alignItems: "center",
-				justifyItems: "center",
+				justifyContent: "space-between",
 				gap: "24px",
 
 				"> button":
@@ -298,21 +305,25 @@ function Game()
 					}}
 				>
 					<HomeIcon sx={{ fontSize: "56px" }} />
-					<span>Города</span>
 				</button>
 
 				<Box sx={{
 					position: "relative",
 					border: "3px solid #252525",
-					width: "60px",
-					height: "60px",
+					width: "56px",
+					height: "56px",
 					borderRadius: "50%",
-					textAlign: "center",
-					font: "400 14px/54px Consolas"
+
+					"& span":
+					{
+						display: "block",
+						textAlign: "center",
+						font: "400 14px/50px Consolas"
+					}
 				}}>
 					<CircularProgress
 						variant="determinate"
-						size={60}
+						size={56}
 						value={Math.floor((currentQuestionIndex * 100) / questions.length)}
 						thickness={3}
 						sx={{
@@ -322,22 +333,17 @@ function Game()
 							color: "#DC4242"
 						}}
 					/>
-					{currentQuestionIndex + 1}/{questions.length}
+					<span>{currentQuestionIndex + 1}/{questions.length}</span>
 				</Box>
 
 				<button
 					disabled={selectedAnswer === null}
 					onClick={nextQuestion}
 				>
-					<ArrowForwardIcon
-						sx={{ fontSize: "56px" }}
-					/>
-					<span>
-						{currentQuestionIndex < questions.length - 1
-							? "Следующий"
-							: "Завершить"
-						}
-					</span>
+					{currentQuestionIndex < questions.length - 1
+						? <ArrowForwardIcon sx={{ fontSize: "56px" }} />
+						: <FlagIcon sx={{ fontSize: "56px" }} />
+					}
 				</button>
 			</Box>
 		</Box >

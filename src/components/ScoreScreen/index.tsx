@@ -120,7 +120,6 @@ function ScoreScreen()
 					}}
 				>
 					<HomeIcon sx={{ fontSize: "56px" }} />
-					<span>Города</span>
 				</button>
 
 				<button
@@ -134,7 +133,6 @@ function ScoreScreen()
 					}}
 				>
 					<RepeatIcon sx={{ fontSize: "56px" }} />
-					<span>Повтор</span>
 				</button>
 			</Box>
 		</Box>
