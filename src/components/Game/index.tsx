@@ -181,14 +181,12 @@ function Game()
 		setSelectedAnswer(value);
 
 		clearTimeout(timerIdRef.current);
-		timerIdRef.current = setTimeout(nextQuestion, AUTO_NEXT_QUESTION_TIME);
+		timerIdRef.current = setTimeout(() => nextQuestion(value), AUTO_NEXT_QUESTION_TIME);
 	}
 
-	function nextQuestion()
+	function nextQuestion(answer?: string)
 	{
-		clearTimeout(timerIdRef.current);
-
-		if (selectedAnswer === currentQuestion.answer)
+		if ((selectedAnswer || answer) === currentQuestion.answer)
 		{
 			AppCtx.setResult((prevState) =>
 			{
@@ -370,12 +368,12 @@ function Game()
 							color: "#DC4242"
 						}}
 					/>
-					<span>{currentQuestionIndex + 1}/{questions.length}</span>
+					<span>{(currentQuestionIndex + 1).toString().padStart(2, "0")}/{questions.length}</span>
 				</Box>
 
 				<button
 					disabled={selectedAnswer === null}
-					onClick={nextQuestion}
+					onClick={() => nextQuestion()}
 				>
 					{currentQuestionIndex < questions.length - 1
 						? <ArrowForwardIcon sx={{ fontSize: "56px" }} />
