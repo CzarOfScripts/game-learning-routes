@@ -125,7 +125,15 @@ function App()
 			<Box
 				className="main"
 				component="main"
-				sx={{ padding: "40px 20px", height: "calc(100vh - 59px - 80px)" }}
+				sx={{
+					padding: "40px 20px",
+					height: "calc(100vh - 59px - 80px)",
+
+					"@supports (height: calc(100cqh - 59px))":
+					{
+						height: "calc(100cqh - 59px)",
+					}
+				}}
 			>
 				<Wrapper>
 					{selectedCity === null
