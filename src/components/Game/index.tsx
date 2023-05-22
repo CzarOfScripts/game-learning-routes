@@ -288,7 +288,15 @@ function Game()
 										? "answer--false"
 										: ""
 							}
-							sx={{ flexDirection: "column", gap: "2px" }}
+							sx={{
+								flexDirection: "column",
+								gap: "2px",
+								borderLeft: (
+									currentQuestion.answer === currentQuestion!.answers[ index ].area && process.env.NODE_ENV === "development"
+										? "1px solid red"
+										: "unset"
+								)
+							}}
 						>
 							{currentQuestion!.answers[ index ].area}
 							{selectedAnswer !== null &&
