@@ -125,7 +125,7 @@ function App()
 			<Box
 				className="main"
 				component="main"
-				sx={{ padding: "40px 20px", height: "calc(100vh - 59px - (40px * 2) - 70px)" }}
+				sx={{ padding: "40px 20px", height: "calc(100vh - 59px - 80px)" }}
 			>
 				<Wrapper>
 					{selectedCity === null
