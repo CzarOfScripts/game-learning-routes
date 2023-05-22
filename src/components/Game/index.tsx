@@ -257,7 +257,7 @@ function Game()
 										? "answer--false"
 										: ""
 							}
-							sx={{ flexDirection: "column" }}
+							sx={{ flexDirection: "column", gap: "2px" }}
 						>
 							{currentQuestion!.answers[ index ].area}
 							{selectedAnswer !== null &&
