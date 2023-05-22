@@ -11,7 +11,7 @@ interface IData
 	areas: string[];
 }
 
-export const data: { [ city: string ]: IData; } =
+export const data: Record<"Тячів" | "Виноградів" | "Берегове" | "Хуст" | "Свалява" | "Великий Бичків", IData> =
 {
 	"Тячів":
 	{
@@ -56,6 +56,7 @@ export const data: { [ city: string ]: IData; } =
 		)
 	}
 };
+
 export type CitiesNameType = keyof typeof data;
 
 export function getCityImage(city: CitiesNameType | null)
