@@ -60,9 +60,7 @@ function ScoreScreen()
 				display: "flex",
 				flexDirection: "column",
 				gap: "24px",
-				maxWidth: "300px",
-				margin: "0 auto",
-				height: "calc(100vh - 59px - (40px * 2) - 70px)",
+				height: "100%"
 			}}
 		>
 			<Box sx={{ textAlign: "center", font: "400 24px/28px Consolas" }}>

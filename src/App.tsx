@@ -1,14 +1,27 @@
-import { Box } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { Box, BoxProps } from "@mui/material";
 import Game from "components/Game";
 import ScoreScreen from "components/ScoreScreen";
 import SelectCity from "components/SelectCity";
 import { CitiesNameType } from "data/data";
 import { Dispatch, ReactNode, SetStateAction, createContext, useState } from "react";
 
-function Wrapper({ children }: { children: ReactNode; })
+function Wrapper({ children, sx = [], ...props }: { children: ReactNode; } & BoxProps)
 {
 	return (
-		<Box className="Wrapper" sx={{ maxWidth: "300px", margin: "0 auto" }}>
+		<Box
+			className="Wrapper"
+			sx={[
+				{
+					maxWidth: "300px",
+					margin: "0 auto",
+					height: "100%"
+				},
+				...Array.isArray(sx) ? sx : [ sx ]
+			]}
+			{...props}
+		>
 			{children}
 		</Box>
 	);
@@ -52,13 +65,17 @@ function App()
 					backgroundColor: "#181818"
 				}}
 			>
-				<Wrapper>Изучение маршрутов в виде игры</Wrapper>
+				<Wrapper sx={{ display: "flex", gap: "24px", justifyContent: "space-between", alignItems: "center" }}>
+					<SearchIcon sx={{ fontSize: "19px" }} />
+					<span style={{ flexGrow: 1, textAlign: "center" }}>Изучение районов</span>
+					<SettingsIcon sx={{ fontSize: "19px" }} />
+				</Wrapper>
 			</Box>
 
 			<Box
 				className="main"
 				component="main"
-				sx={{ padding: "40px 20px" }}
+				sx={{ padding: "40px 20px", height: "calc(100vh - 59px - (40px * 2) - 70px)" }}
 			>
 				<Wrapper>
 					{selectedCity === null

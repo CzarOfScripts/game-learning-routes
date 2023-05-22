@@ -184,9 +184,7 @@ function Game()
 			display: "flex",
 			flexDirection: "column",
 			gap: "24px",
-			width: "300px",
-			height: "calc(100vh - 59px - (40px * 2) - 70px)",
-			margin: "0 auto"
+			height: "100%"
 		}}>
 			<Box sx={{
 				position: "relative",
