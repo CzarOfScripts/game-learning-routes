@@ -3,12 +3,16 @@ import RepeatIcon from "@mui/icons-material/Repeat";
 import { Box, CircularProgress } from "@mui/material";
 import { AppContext } from "App";
 import { useContext } from "react";
+import { timeToObject } from "utils/timeToObject";
 
 function ScoreScreen()
 {
 	const AppCtx = useContext(AppContext);
 
 	const percentage = Math.floor((AppCtx.result![ 0 ] * 100) / AppCtx.result![ 1 ]);
+	const timeObj = timeToObject(AppCtx.timer![ 0 ].getTime() - AppCtx.timer![ 1 ].getTime());
+
+	timeObj.hours += timeObj.days * 24 * 60;
 
 	// Utils
 	function textByPercentage(percentage: number)
@@ -73,10 +77,11 @@ function ScoreScreen()
 				width: "150px",
 				height: "150px",
 				borderRadius: "50%",
-				margin: "auto",
-				lineHeight: "96px",
 				textAlign: "center",
-				font: "400 24px/144px Consolas"
+				margin: "auto",
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center"
 			}}>
 				<CircularProgress
 					variant="determinate"
@@ -90,7 +95,19 @@ function ScoreScreen()
 						color: colorByPercentage(percentage)
 					}}
 				/>
-				<span style={{ color: colorByPercentage(percentage) }}>{AppCtx.result![ 0 ]}</span>/{AppCtx.result![ 1 ]}
+				<Box sx={{ font: "400 24px/28px Consolas", position: "relative" }}>
+					<span style={{ color: colorByPercentage(percentage) }}>{AppCtx.result![ 0 ]}</span>/{AppCtx.result![ 1 ]}
+					<Box sx={{
+						position: "absolute",
+						bottom: "-21px",
+						width: "100%",
+						font: "400 14px/16px Consolas"
+					}}>
+						{timeObj.hours > 0 && timeObj.hours.toString().padStart(2, "0") + ":"}
+						{timeObj.minutes.toString().padStart(2, "0")}
+						:{timeObj.seconds.toString().padStart(2, "0")}
+					</Box>
+				</Box>
 			</Box>
 
 			{/* <input type="range" min="0" max={result[ 1 ]} defaultValue="0" onChange={({ target }) => setValue(target.valueAsNumber)} /> */}
@@ -115,6 +132,12 @@ function ScoreScreen()
 					{
 						AppCtx.setSelectedCity(null);
 						AppCtx.setIsShowResult(false);
+						AppCtx.setTimer(null);
+						AppCtx.setResult([ 0, 0 ]);
+
+						localStorage.removeItem("game-selectedAnswer");
+						localStorage.removeItem("game-questions");
+						localStorage.removeItem("game-currentQuestionIndex");
 					}}
 				>
 					<HomeIcon sx={{ fontSize: "56px" }} />
@@ -123,11 +146,15 @@ function ScoreScreen()
 				<button
 					onClick={() =>
 					{
-						AppCtx.setResult((prevState) =>
-						{
-							return Object.assign([], prevState, { 0: 0 });
-						});
+						AppCtx.setResult([ 0, 0 ]);
 						AppCtx.setIsShowResult(false);
+
+						localStorage.removeItem("game-selectedAnswer");
+						localStorage.removeItem("game-questions");
+						localStorage.removeItem("game-currentQuestionIndex");
+
+						const date = new Date();
+						AppCtx.setTimer([ date, date ]);
 					}}
 				>
 					<RepeatIcon sx={{ fontSize: "56px" }} />

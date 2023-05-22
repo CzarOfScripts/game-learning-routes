@@ -7,6 +7,7 @@ import ButtonStyled from "components/ButtonStyled";
 import { CitiesNameType, data, getCityImage } from "data/data";
 import { useContext, useLayoutEffect, useRef, useState } from "react";
 import { getRandomItem, shuffleArray } from "utils";
+import { getLocalStorage, setLocalStorage } from "utils/localStorage";
 
 enum GameType
 {
@@ -29,10 +30,26 @@ function Game()
 	const city = AppCtx.selectedCity as CitiesNameType;
 
 	const timerIdRef = useRef<NodeJS.Timeout>();
-	const [ selectedAnswer, setSelectedAnswer ] = useState<string | null>(null);
-	const [ currentQuestionIndex, setCurrentQuestionIndex ] = useState<number>(0);
+	const [ selectedAnswer, setSelectedAnswer ] = useState<string | null>(() =>
+	{
+		const store = getLocalStorage<string>("game-selectedAnswer");
+
+		return store;
+	});
+	const [ currentQuestionIndex, setCurrentQuestionIndex ] = useState<number>(() =>
+	{
+		const store = getLocalStorage<number>("game-currentQuestionIndex");
+
+		return store ?? 0;
+	});
 	const [ questions ] = useState<QuestionType[]>(() =>
 	{
+		const store = getLocalStorage<QuestionType[]>("game-questions");
+		if (store !== null)
+		{
+			return store;
+		}
+
 		const array: QuestionType[] = [];
 		const areasCount = data[ city ].areas.length;
 
@@ -51,11 +68,23 @@ function Game()
 	// Effects
 	useLayoutEffect(() =>
 	{
+		setLocalStorage("game-questions", questions);
+
 		AppCtx.setResult((prevState) =>
 		{
 			return Object.assign([], prevState, { 1: questions.length });
 		});
-	}, []); // eslint-disable-line
+	}, [ questions ]); // eslint-disable-line
+
+	useLayoutEffect(() =>
+	{
+		setLocalStorage("game-selectedAnswer", selectedAnswer);
+	}, [ selectedAnswer ]);
+
+	useLayoutEffect(() =>
+	{
+		setLocalStorage("game-currentQuestionIndex", currentQuestionIndex);
+	}, [ currentQuestionIndex ]);
 
 	// Utils
 	function getRandomCity(withoutCity: CitiesNameType): CitiesNameType
@@ -170,6 +199,10 @@ function Game()
 		if (currentQuestionIndex === questions.length - 1)
 		{
 			AppCtx.setIsShowResult(true);
+			AppCtx.setTimer((prevState) =>
+			{
+				return Object.assign([], prevState, { 1: new Date() });
+			});
 
 			return;
 		}
@@ -300,6 +333,12 @@ function Game()
 					{
 						AppCtx.setSelectedCity(null);
 						AppCtx.setIsShowResult(false);
+						AppCtx.setTimer(null);
+						AppCtx.setResult([ 0, 0 ]);
+
+						localStorage.removeItem("game-selectedAnswer");
+						localStorage.removeItem("game-questions");
+						localStorage.removeItem("game-currentQuestionIndex");
 					}}
 				>
 					<HomeIcon sx={{ fontSize: "56px" }} />

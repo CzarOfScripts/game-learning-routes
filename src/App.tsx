@@ -5,7 +5,8 @@ import Game from "components/Game";
 import ScoreScreen from "components/ScoreScreen";
 import SelectCity from "components/SelectCity";
 import { CitiesNameType } from "data/data";
-import { Dispatch, ReactNode, SetStateAction, createContext, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, createContext, useLayoutEffect, useState } from "react";
+import { getLocalStorage, setLocalStorage } from "utils/localStorage";
 
 function Wrapper({ children, sx = [], ...props }: { children: ReactNode; } & BoxProps)
 {
@@ -36,22 +37,71 @@ interface IAppContext
 	setResult: Dispatch<SetStateAction<[ number, number ]>>,
 
 	isShowResult: boolean,
-	setIsShowResult: Dispatch<SetStateAction<boolean>>;
+	setIsShowResult: Dispatch<SetStateAction<boolean>>,
+
+	timer: [ startTime: Date, endTime: Date ] | null,
+	setTimer: Dispatch<SetStateAction<[ startTime: Date, endTime: Date ] | null>>;
 }
 
 export const AppContext = createContext<IAppContext>({} as IAppContext);
 
 function App()
 {
-	const [ selectedCity, setSelectedCity ] = useState<CitiesNameType | null>(null);
-	const [ result, setResult ] = useState<[ number, number ]>([ 0, 0 ]);
-	const [ isShowResult, setIsShowResult ] = useState<boolean>(false);
+	const [ selectedCity, setSelectedCity ] = useState<CitiesNameType | null>(() =>
+	{
+		const store = getLocalStorage<CitiesNameType | null>("game-selectedCity");
 
+		return store;
+	});
+	const [ result, setResult ] = useState<[ number, number ]>(() =>
+	{
+		const store = getLocalStorage<[ number, number ]>("game-result");
+
+		return store ?? [ 0, 0 ];
+	});
+	const [ isShowResult, setIsShowResult ] = useState<boolean>(() =>
+	{
+		const store = getLocalStorage<boolean>("game-isShowResult");
+
+		return store ?? false;
+	});
+	const [ timer, setTimer ] = useState<[ startTime: Date, endTime: Date ] | null>(() =>
+	{
+		const store = getLocalStorage<[ startTime: string, endTime: string ] | null>("game-timer");
+
+		return store !== null
+			? [ new Date(store[ 0 ]), new Date(store[ 1 ]) ]
+			: null;
+	});
+
+	// Effects
+	useLayoutEffect(() =>
+	{
+		setLocalStorage("game-result", result);
+	}, [ result ]);
+
+	useLayoutEffect(() =>
+	{
+		setLocalStorage("game-isShowResult", isShowResult);
+	}, [ isShowResult ]);
+
+	useLayoutEffect(() =>
+	{
+		setLocalStorage("game-selectedCity", selectedCity);
+	}, [ selectedCity ]);
+
+	useLayoutEffect(() =>
+	{
+		setLocalStorage("game-timer", timer);
+	}, [ timer ]);
+
+	// Render
 	return (
 		<AppContext.Provider value={{
 			selectedCity, setSelectedCity,
 			result, setResult,
-			isShowResult, setIsShowResult
+			isShowResult, setIsShowResult,
+			timer, setTimer
 		}}>
 			<Box
 				className="header"

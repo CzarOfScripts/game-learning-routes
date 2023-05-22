@@ -20,7 +20,18 @@ function SelectCity()
 				return (
 					<ButtonStyled
 						key={city}
-						onClick={() => AppCtx.setSelectedCity(city as CitiesNameType)}
+						onClick={() =>
+						{
+							AppCtx.setSelectedCity(city as CitiesNameType);
+							AppCtx.setIsShowResult(false);
+							AppCtx.setResult((prevState) =>
+							{
+								return Object.assign([], prevState, { 0: 0 });
+							});
+
+							const date = new Date();
+							AppCtx.setTimer([ date, date ]);
+						}}
 						sx={{
 							height: "138px !important",
 							width: "138px !important",
