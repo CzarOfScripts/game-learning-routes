@@ -1,5 +1,5 @@
-import HomeIcon from "@mui/icons-material/Home";
-import RepeatIcon from "@mui/icons-material/Repeat";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
+import RepeatRoundedIcon from "@mui/icons-material/RepeatRounded";
 import { Box, CircularProgress } from "@mui/material";
 import { AppContext } from "App";
 import { useContext } from "react";
@@ -140,7 +140,7 @@ function ScoreScreen()
 						localStorage.removeItem("game-currentQuestionIndex");
 					}}
 				>
-					<HomeIcon sx={{ fontSize: "56px" }} />
+					<HomeRoundedIcon sx={{ fontSize: "56px" }} />
 				</button>
 
 				<button
@@ -157,7 +157,7 @@ function ScoreScreen()
 						AppCtx.setTimer([ date, date ]);
 					}}
 				>
-					<RepeatIcon sx={{ fontSize: "56px" }} />
+					<RepeatRoundedIcon sx={{ fontSize: "56px" }} />
 				</button>
 			</Box>
 		</Box>

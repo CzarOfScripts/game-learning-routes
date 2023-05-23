@@ -1,6 +1,6 @@
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import FlagIcon from '@mui/icons-material/Flag';
-import HomeIcon from "@mui/icons-material/Home";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import FlagRoundedIcon from "@mui/icons-material/FlagRounded";
+import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { Box, CircularProgress, Zoom, alpha } from "@mui/material";
 import { AppContext } from "App";
 import ButtonStyled from "components/ButtonStyled";
@@ -300,7 +300,7 @@ function Game()
 								)
 							}}
 						>
-							{currentQuestion!.answers[ index ].area}
+							<span>{currentQuestion!.answers[ index ].area}</span>
 							{selectedAnswer !== null &&
 								(
 									<Zoom in={true} timeout={350}>
@@ -349,7 +349,7 @@ function Game()
 						localStorage.removeItem("game-currentQuestionIndex");
 					}}
 				>
-					<HomeIcon sx={{ fontSize: "56px" }} />
+					<HomeRoundedIcon sx={{ fontSize: "56px" }} />
 				</button>
 
 				<Box sx={{
@@ -386,8 +386,8 @@ function Game()
 					onClick={() => nextQuestion()}
 				>
 					{currentQuestionIndex < questions.length - 1
-						? <ArrowForwardIcon sx={{ fontSize: "56px" }} />
-						: <FlagIcon sx={{ fontSize: "56px" }} />
+						? <ArrowForwardRoundedIcon sx={{ fontSize: "56px" }} />
+						: <FlagRoundedIcon sx={{ fontSize: "56px" }} />
 					}
 				</button>
 			</Box>
