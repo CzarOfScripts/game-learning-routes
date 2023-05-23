@@ -186,6 +186,8 @@ function Game()
 
 	function nextQuestion(answer?: string)
 	{
+		clearTimeout(timerIdRef.current);
+
 		if ((selectedAnswer || answer) === currentQuestion.answer)
 		{
 			AppCtx.setResult((prevState) =>
