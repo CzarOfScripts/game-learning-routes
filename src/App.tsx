@@ -1,6 +1,5 @@
-import SearchIcon from "@mui/icons-material/Search";
-import SettingsIcon from "@mui/icons-material/Settings";
-import { Box, BoxProps } from "@mui/material";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import Game from "components/Game";
 import ScoreScreen from "components/ScoreScreen";
 import SelectCity from "components/SelectCity";
@@ -116,9 +115,9 @@ function App()
 				}}
 			>
 				<Wrapper sx={{ display: "flex", gap: "24px", justifyContent: "space-between", alignItems: "center" }}>
-					<SearchIcon sx={{ fontSize: "19px" }} />
+					<SearchRoundedIcon sx={{ fontSize: "19px" }} />
 					<span style={{ flexGrow: 1, textAlign: "center" }}>Изучение районов</span>
-					<SettingsIcon sx={{ fontSize: "19px" }} />
+						<SettingsRoundedIcon />
 				</Wrapper>
 			</Box>
 
