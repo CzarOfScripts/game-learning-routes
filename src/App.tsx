@@ -1,33 +1,51 @@
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { Box } from "@mui/material";
+import SettingsModal from "Settings.modal";
 import Game from "components/Game";
 import ScoreScreen from "components/ScoreScreen";
 import SelectCity from "components/SelectCity";
 import Wrapper from "components/Wrapper";
 import { CitiesNameType } from "data/data";
-import { Dispatch, ReactNode, SetStateAction, createContext, useLayoutEffect, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useLayoutEffect, useState } from "react";
 import { getLocalStorage, setLocalStorage } from "utils/localStorage";
 
 interface IAppContext
 {
-	selectedCity: CitiesNameType | null,
-	setSelectedCity: Dispatch<SetStateAction<CitiesNameType | null>>,
+	selectedCity: CitiesNameType | null;
+	setSelectedCity: Dispatch<SetStateAction<CitiesNameType | null>>;
 
-	result: [ number, number ] | null,
-	setResult: Dispatch<SetStateAction<[ number, number ]>>,
+	result: [ number, number ] | null;
+	setResult: Dispatch<SetStateAction<[ number, number ]>>;
 
-	isShowResult: boolean,
-	setIsShowResult: Dispatch<SetStateAction<boolean>>,
+	isShowResult: boolean;
+	setIsShowResult: Dispatch<SetStateAction<boolean>>;
 
-	timer: [ startTime: Date, endTime: Date ] | null,
+	timer: [ startTime: Date, endTime: Date ] | null;
 	setTimer: Dispatch<SetStateAction<[ startTime: Date, endTime: Date ] | null>>;
+
+	settings: ISettings;
+	setSettings: Dispatch<SetStateAction<ISettings>>;
 }
+
+interface ISettings
+{
+	/**
+	 * @default true
+	 */
+	autoNextQuestion: boolean;
+}
+
+const defaultSettings: ISettings =
+{
+	autoNextQuestion: true
+};
 
 export const AppContext = createContext<IAppContext>({} as IAppContext);
 
 function App()
 {
+	const [ isShowSettings, setIsShowSettings ] = useState<boolean>(true);
 	const [ selectedCity, setSelectedCity ] = useState<CitiesNameType | null>(() =>
 	{
 		const store = getLocalStorage<CitiesNameType | null>("game-selectedCity");
@@ -54,6 +72,12 @@ function App()
 			? [ new Date(store[ 0 ]), new Date(store[ 1 ]) ]
 			: null;
 	});
+	const [ settings, setSettings ] = useState<ISettings>(() =>
+	{
+		const store = getLocalStorage<ISettings>("game-settings");
+
+		return Object.assign({}, defaultSettings, store);
+	});
 
 	// Effects
 	useLayoutEffect(() =>
@@ -76,13 +100,19 @@ function App()
 		setLocalStorage("game-timer", timer);
 	}, [ timer ]);
 
+	useLayoutEffect(() =>
+	{
+		setLocalStorage("game-settings", settings);
+	}, [ settings ]);
+
 	// Render
 	return (
 		<AppContext.Provider value={{
 			selectedCity, setSelectedCity,
 			result, setResult,
 			isShowResult, setIsShowResult,
-			timer, setTimer
+			timer, setTimer,
+			settings, setSettings
 		}}>
 			<Box
 				className="header"
@@ -99,7 +129,28 @@ function App()
 				<Wrapper sx={{ display: "flex", gap: "24px", justifyContent: "space-between", alignItems: "center" }}>
 					<SearchRoundedIcon sx={{ fontSize: "19px" }} />
 					<span style={{ flexGrow: 1, textAlign: "center" }}>Изучение районов</span>
+					<Box
+						component="button"
+						onClick={() => setIsShowSettings(true)}
+						sx={{
+							border: "unset",
+							background: "unset",
+							height: "19px",
+							width: "19px",
+
+							"& svg":
+							{
+								fontSize: "19px",
+								color: "#ACACAC"
+							},
+							"&:hover svg":
+							{
+								color: "#FFFFFF"
+							}
+						}}
+					>
 						<SettingsRoundedIcon />
+					</Box>
 				</Wrapper>
 			</Box>
 
@@ -125,6 +176,11 @@ function App()
 					}
 				</Wrapper>
 			</Box>
+
+			<SettingsModal
+				open={isShowSettings}
+				onClose={() => setIsShowSettings(false)}
+			/>
 		</AppContext.Provider>
 	);
 }

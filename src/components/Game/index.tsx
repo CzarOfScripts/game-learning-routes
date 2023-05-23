@@ -181,7 +181,10 @@ function Game()
 		setSelectedAnswer(value);
 
 		clearTimeout(timerIdRef.current);
-		timerIdRef.current = setTimeout(() => nextQuestion(value), AUTO_NEXT_QUESTION_TIME);
+		if (AppCtx.settings.autoNextQuestion === true)
+		{
+			timerIdRef.current = setTimeout(() => nextQuestion(value), AUTO_NEXT_QUESTION_TIME);
+		}
 	}
 
 	function nextQuestion(answer?: string)
