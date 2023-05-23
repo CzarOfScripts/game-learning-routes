@@ -27,7 +27,7 @@ const BpCheckedIcon = styled(({ ...props }: { [ propName: string ]: any; }) =>
 			}} />
 		</BpIcon>
 	);
-})();
+})({});
 
 interface ICheckboxStyled
 {
