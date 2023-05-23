@@ -1,14 +1,14 @@
-import { Box, BoxProps, SxProps, Theme } from "@mui/material";
-import { ReactNode } from "react";
+import { Box, BoxProps, SvgIconTypeMap, SxProps, Theme } from "@mui/material";
+import { OverridableComponent } from "@mui/material/OverridableComponent";
 
 export interface ICustomIconButtonProps
 {
-	children: ReactNode;
+	icon: OverridableComponent<SvgIconTypeMap<{}, "svg">>;
 	size: number;
 	sx?: SxProps<Theme>;
 }
 
-function CustomIconButton({ className, children, size, sx = [], ...props }: ICustomIconButtonProps & BoxProps<"button">)
+function CustomIconButton({ className, icon: Icon, size, sx = [], ...props }: ICustomIconButtonProps & BoxProps<"button">)
 {
 	return (
 		<Box
@@ -27,11 +27,11 @@ function CustomIconButton({ className, children, size, sx = [], ...props }: ICus
 						color: "#ACACAC",
 						transition: "linear 200ms color"
 					},
-					"&:hover svg":
+					"&:hover .IconButton-icon":
 					{
 						color: "#FFFFFF"
 					},
-					"&:disabled svg":
+					"&:disabled .IconButton-icon":
 					{
 						cursor: "auto",
 						color: "#707070"
@@ -41,7 +41,7 @@ function CustomIconButton({ className, children, size, sx = [], ...props }: ICus
 			]}
 			{...props}
 		>
-			{children}
+			<Icon className="IconButton-icon" />
 		</Box>
 	);
 }

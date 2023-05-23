@@ -93,11 +93,10 @@ function DialogStyled({ title, children, transitionDirection = "down", open = fa
 
 					<CustomIconButton
 						className="Dialog-closeButton"
+						icon={CloseRoundedIcon}
 						size={24}
 						onClick={(event) => onClose(event, "closeButton")}
-					>
-						<CloseRoundedIcon />
-					</CustomIconButton>
+					/>
 				</Box>
 
 				<Box className="Dialog-content">

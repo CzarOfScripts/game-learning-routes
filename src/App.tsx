@@ -131,11 +131,10 @@ function App()
 					<SearchRoundedIcon sx={{ fontSize: "19px" }} />
 					<span style={{ flexGrow: 1, textAlign: "center" }}>Изучение районов</span>
 					<CustomIconButton
+						icon={SettingsRoundedIcon}
 						size={19}
 						onClick={() => setIsShowSettings(true)}
-					>
-						<SettingsRoundedIcon />
-					</CustomIconButton>
+					/>
 				</Wrapper>
 			</Box>
 

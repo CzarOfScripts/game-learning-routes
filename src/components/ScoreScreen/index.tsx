@@ -129,6 +129,7 @@ function ScoreScreen()
 				}
 			}}>
 				<CustomIconButton
+					icon={HomeRoundedIcon}
 					size={56}
 					onClick={() =>
 					{
@@ -141,11 +142,10 @@ function ScoreScreen()
 						localStorage.removeItem("game-questions");
 						localStorage.removeItem("game-currentQuestionIndex");
 					}}
-				>
-					<HomeRoundedIcon />
-				</CustomIconButton>
+				/>
 
 				<CustomIconButton
+					icon={RepeatRoundedIcon}
 					size={56}
 					onClick={() =>
 					{
@@ -159,9 +159,7 @@ function ScoreScreen()
 						const date = new Date();
 						AppCtx.setTimer([ date, date ]);
 					}}
-				>
-					<RepeatRoundedIcon />
-				</CustomIconButton>
+				/>
 			</Box>
 		</Box>
 	);

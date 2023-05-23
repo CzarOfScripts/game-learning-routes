@@ -325,6 +325,7 @@ function Game()
 				gap: "24px"
 			}}>
 				<CustomIconButton
+					icon={HomeRoundedIcon}
 					size={56}
 					onClick={() =>
 					{
@@ -337,9 +338,7 @@ function Game()
 						localStorage.removeItem("game-questions");
 						localStorage.removeItem("game-currentQuestionIndex");
 					}}
-				>
-					<HomeRoundedIcon />
-				</CustomIconButton>
+				/>
 
 				<Box sx={{
 					position: "relative",
@@ -371,14 +370,15 @@ function Game()
 				</Box>
 
 				<CustomIconButton
+					icon={
+						currentQuestionIndex < questions.length - 1
+							? ArrowForwardRoundedIcon
+							: FlagRoundedIcon
+					}
 					size={56}
 					disabled={selectedAnswer === null}
 					onClick={() => nextQuestion()}
 				>
-					{currentQuestionIndex < questions.length - 1
-						? <ArrowForwardRoundedIcon />
-						: <FlagRoundedIcon />
-					}
 				</CustomIconButton>
 			</Box>
 		</Box >
