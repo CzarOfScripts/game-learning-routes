@@ -2,6 +2,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import RepeatRoundedIcon from "@mui/icons-material/RepeatRounded";
 import { Box, CircularProgress } from "@mui/material";
 import { AppContext } from "App";
+import CustomIconButton from "components/CustomIconButton";
 import { useContext } from "react";
 import { timeToObject } from "utils/timeToObject";
 
@@ -127,7 +128,8 @@ function ScoreScreen()
 					background: "unset"
 				}
 			}}>
-				<button
+				<CustomIconButton
+					size={56}
 					onClick={() =>
 					{
 						AppCtx.setSelectedCity(null);
@@ -140,10 +142,11 @@ function ScoreScreen()
 						localStorage.removeItem("game-currentQuestionIndex");
 					}}
 				>
-					<HomeRoundedIcon sx={{ fontSize: "56px" }} />
-				</button>
+					<HomeRoundedIcon />
+				</CustomIconButton>
 
-				<button
+				<CustomIconButton
+					size={56}
 					onClick={() =>
 					{
 						AppCtx.setResult([ 0, 0 ]);
@@ -157,8 +160,8 @@ function ScoreScreen()
 						AppCtx.setTimer([ date, date ]);
 					}}
 				>
-					<RepeatRoundedIcon sx={{ fontSize: "56px" }} />
-				</button>
+					<RepeatRoundedIcon />
+				</CustomIconButton>
 			</Box>
 		</Box>
 	);

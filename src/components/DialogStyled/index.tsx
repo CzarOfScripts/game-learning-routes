@@ -1,5 +1,6 @@
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { Box, Dialog, alpha } from "@mui/material";
+import CustomIconButton from "components/CustomIconButton";
 import { TransitionSlideDown, TransitionSlideLeft, TransitionSlideRight, TransitionSlideUp } from "components/Transition";
 import Wrapper from "components/Wrapper";
 import { ReactNode } from "react";
@@ -70,16 +71,6 @@ function DialogStyled({ title, children, transitionDirection = "down", open = fa
 					flexGrow: 1,
 					color: "#FFFFFF"
 				},
-				"& .Dialog-closeButton":
-				{
-					height: "24px",
-					width: "24px",
-
-					"&:hover svg":
-					{
-						color: "#FFFFFF"
-					}
-				},
 				"& .Dialog-closeButton svg":
 				{
 					fontSize: "24px",
@@ -100,17 +91,13 @@ function DialogStyled({ title, children, transitionDirection = "down", open = fa
 						{title}
 					</Box>
 
-					<Box
+					<CustomIconButton
 						className="Dialog-closeButton"
-						component="button"
+						size={24}
 						onClick={(event) => onClose(event, "closeButton")}
-						sx={{
-							border: "unset",
-							background: "unset"
-						}}
 					>
 						<CloseRoundedIcon />
-					</Box>
+					</CustomIconButton>
 				</Box>
 
 				<Box className="Dialog-content">

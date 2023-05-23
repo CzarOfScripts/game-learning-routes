@@ -2,6 +2,7 @@ import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { Box } from "@mui/material";
 import SettingsModal from "Settings.modal";
+import CustomIconButton from "components/CustomIconButton";
 import Game from "components/Game";
 import ScoreScreen from "components/ScoreScreen";
 import SelectCity from "components/SelectCity";
@@ -129,28 +130,12 @@ function App()
 				<Wrapper sx={{ display: "flex", gap: "24px", justifyContent: "space-between", alignItems: "center" }}>
 					<SearchRoundedIcon sx={{ fontSize: "19px" }} />
 					<span style={{ flexGrow: 1, textAlign: "center" }}>Изучение районов</span>
-					<Box
-						component="button"
+					<CustomIconButton
+						size={19}
 						onClick={() => setIsShowSettings(true)}
-						sx={{
-							border: "unset",
-							background: "unset",
-							height: "19px",
-							width: "19px",
-
-							"& svg":
-							{
-								fontSize: "19px",
-								color: "#ACACAC"
-							},
-							"&:hover svg":
-							{
-								color: "#FFFFFF"
-							}
-						}}
 					>
 						<SettingsRoundedIcon />
-					</Box>
+					</CustomIconButton>
 				</Wrapper>
 			</Box>
 

@@ -4,6 +4,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import { Box, CircularProgress, Zoom, alpha } from "@mui/material";
 import { AppContext } from "App";
 import ButtonStyled from "components/ButtonStyled";
+import CustomIconButton from "components/CustomIconButton";
 import { CitiesNameType, data, getCityImage } from "data/data";
 import { useContext, useLayoutEffect, useRef, useState } from "react";
 import { getRandomItem, shuffleArray } from "utils";
@@ -321,25 +322,10 @@ function Game()
 				display: "flex",
 				alignItems: "center",
 				justifyContent: "space-between",
-				gap: "24px",
-
-				"> button":
-				{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
-					flexDirection: "column",
-					border: "unset",
-					background: "unset",
-
-					"&:disabled":
-					{
-						cursor: "auto",
-						color: "#707070"
-					}
-				}
+				gap: "24px"
 			}}>
-				<button
+				<CustomIconButton
+					size={56}
 					onClick={() =>
 					{
 						AppCtx.setSelectedCity(null);
@@ -352,8 +338,8 @@ function Game()
 						localStorage.removeItem("game-currentQuestionIndex");
 					}}
 				>
-					<HomeRoundedIcon sx={{ fontSize: "56px" }} />
-				</button>
+					<HomeRoundedIcon />
+				</CustomIconButton>
 
 				<Box sx={{
 					position: "relative",
@@ -384,15 +370,16 @@ function Game()
 					<span>{(currentQuestionIndex + 1).toString().padStart(2, "0")}/{questions.length}</span>
 				</Box>
 
-				<button
+				<CustomIconButton
+					size={56}
 					disabled={selectedAnswer === null}
 					onClick={() => nextQuestion()}
 				>
 					{currentQuestionIndex < questions.length - 1
-						? <ArrowForwardRoundedIcon sx={{ fontSize: "56px" }} />
-						: <FlagRoundedIcon sx={{ fontSize: "56px" }} />
+						? <ArrowForwardRoundedIcon />
+						: <FlagRoundedIcon />
 					}
-				</button>
+				</CustomIconButton>
 			</Box>
 		</Box >
 	);
