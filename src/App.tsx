@@ -1,31 +1,13 @@
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import { Box } from "@mui/material";
 import Game from "components/Game";
 import ScoreScreen from "components/ScoreScreen";
 import SelectCity from "components/SelectCity";
+import Wrapper from "components/Wrapper";
 import { CitiesNameType } from "data/data";
 import { Dispatch, ReactNode, SetStateAction, createContext, useLayoutEffect, useState } from "react";
 import { getLocalStorage, setLocalStorage } from "utils/localStorage";
-
-function Wrapper({ children, sx = [], ...props }: { children: ReactNode; } & BoxProps)
-{
-	return (
-		<Box
-			className="Wrapper"
-			sx={[
-				{
-					maxWidth: "300px",
-					margin: "0 auto",
-					height: "100%"
-				},
-				...Array.isArray(sx) ? sx : [ sx ]
-			]}
-			{...props}
-		>
-			{children}
-		</Box>
-	);
-}
 
 interface IAppContext
 {
