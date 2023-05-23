@@ -13,6 +13,7 @@ const ButtonStyled = styled(Button)(({ disabled }) =>
 	minHeight: "unset",
 	maxHeight: "unset",
 	borderRadius: "10px",
+	transition: "linear 200ms background-color",
 
 	"&:focus":
 	{
