@@ -45,7 +45,7 @@ export const AppContext = createContext<IAppContext>({} as IAppContext);
 
 function App()
 {
-	const [ isShowSettings, setIsShowSettings ] = useState<boolean>(true);
+	const [ isShowSettings, setIsShowSettings ] = useState<boolean>(false);
 	const [ selectedCity, setSelectedCity ] = useState<CitiesNameType | null>(() =>
 	{
 		const store = getLocalStorage<CitiesNameType | null>("game-selectedCity");
