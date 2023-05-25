@@ -143,11 +143,11 @@ function App()
 				component="main"
 				sx={{
 					padding: "40px 20px",
-					height: "calc(100vh - 59px - 80px)",
+					minHeight: "calc(100vh - 59px - 80px)",
 
 					"@supports (height: calc(100cqh - 59px))":
 					{
-						height: "calc(100cqh - 59px)",
+						minHeight: "calc(100cqh - 59px)",
 					}
 				}}
 			>
