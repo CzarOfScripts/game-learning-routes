@@ -47,7 +47,8 @@ function CheckboxStyled({ label, sx = [], checkboxProps = {}, ...props }: ICheck
 			sx={[
 				{
 					display: "flex",
-					gap: "16px"
+					gap: "16px",
+					cursor: "pointer"
 				},
 				...Array.isArray(sx) ? sx : [ sx ]
 			]}
