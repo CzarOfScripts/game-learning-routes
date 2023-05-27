@@ -219,9 +219,9 @@ function Game()
 	return (
 		<Box sx={{
 			display: "flex",
+			flexGrow: 1,
 			flexDirection: "column",
-			gap: "24px",
-			height: "100%"
+			gap: "24px"
 		}}>
 			<Box sx={{
 				position: "relative",

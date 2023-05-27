@@ -142,16 +142,19 @@ function App()
 				className="main"
 				component="main"
 				sx={{
+					display: "flex",
+					flexDirection: "column",
 					padding: "40px 20px",
+					height: "100%",
 					minHeight: "calc(100vh - 59px - 80px)",
 
-					"@supports (height: calc(100cqh - 59px))":
+					"@supports (min-height: 0cqh)":
 					{
 						minHeight: "calc(100cqh - 59px)",
 					}
 				}}
 			>
-				<Wrapper>
+				<Wrapper sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
 					{selectedCity === null
 						? <SelectCity />
 						: isShowResult === false

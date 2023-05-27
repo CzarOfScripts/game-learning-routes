@@ -63,9 +63,9 @@ function ScoreScreen()
 			className="ScoreScreen"
 			sx={{
 				display: "flex",
+				flexGrow: 1,
 				flexDirection: "column",
-				gap: "24px",
-				height: "100%"
+				gap: "24px"
 			}}
 		>
 			<Box sx={{ textAlign: "center", font: "400 24px/28px Consolas" }}>

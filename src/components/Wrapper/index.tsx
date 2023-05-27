@@ -7,6 +7,7 @@ function Wrapper({ children, sx = [], ...props }: BoxProps)
 			className="Wrapper"
 			sx={[
 				{
+					width: "100%",
 					maxWidth: "300px",
 					margin: "0 auto",
 					height: "100%"
