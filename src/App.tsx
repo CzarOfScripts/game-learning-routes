@@ -3,7 +3,7 @@ import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { Box } from "@mui/material";
 import SettingsModal from "Settings.modal";
 import CustomIconButton from "components/CustomIconButton";
-import Game from "components/Game";
+import Game, { GameType } from "components/Game";
 import ScoreScreen from "components/ScoreScreen";
 import SelectCity from "components/SelectCity";
 import Wrapper from "components/Wrapper";
@@ -27,6 +27,9 @@ interface IAppContext
 
 	settings: ISettings;
 	setSettings: Dispatch<SetStateAction<ISettings>>;
+
+	selectedGameTypes: GameType[];
+	setSelectedGameTypes: Dispatch<SetStateAction<GameType[]>>;
 }
 
 interface ISettings
@@ -58,6 +61,12 @@ function App()
 		const store = getLocalStorage<[ number, number ]>("game-result");
 
 		return store ?? [ 0, 0 ];
+	});
+	const [ selectedGameTypes, setSelectedGameTypes ] = useState<GameType[]>(() =>
+	{
+		const store = getLocalStorage<GameType[]>("game-selectedGameTypes");
+
+		return store ?? [ GameType.ONE_CORRECT, GameType.ONE_WRONG, GameType.TRUE_FALSE ];
 	});
 	const [ isShowResult, setIsShowResult ] = useState<boolean>(() =>
 	{
@@ -106,6 +115,11 @@ function App()
 		setLocalStorage("game-settings", settings);
 	}, [ settings ]);
 
+	useLayoutEffect(() =>
+	{
+		setLocalStorage("game-selectedGameTypes", selectedGameTypes);
+	}, [ selectedGameTypes ]);
+
 	// Render
 	return (
 		<AppContext.Provider value={{
@@ -113,7 +127,8 @@ function App()
 			result, setResult,
 			isShowResult, setIsShowResult,
 			timer, setTimer,
-			settings, setSettings
+			settings, setSettings,
+			selectedGameTypes, setSelectedGameTypes
 		}}>
 			<Box
 				className="header"

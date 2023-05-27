@@ -10,15 +10,18 @@ import { useContext, useLayoutEffect, useRef, useState } from "react";
 import { getRandomItem, shuffleArray } from "utils";
 import { getLocalStorage, setLocalStorage } from "utils/localStorage";
 
-enum GameType
+export enum GameType
 {
 	ONE_CORRECT,
-	ONE_WRONG
+	ONE_WRONG,
+	TRUE_FALSE
 };
 
+type AnswerType = { text: string; description?: string; isAnswer?: boolean; };
+
 type QuestionType = {
-	answers: { city: string, area: string; }[],
-	answer: string,
+	answers: AnswerType[],
+	data?: { [ key: string ]: string; },
 	gameType: GameType;
 };
 
@@ -31,9 +34,9 @@ function Game()
 	const city = AppCtx.selectedCity as CitiesNameType;
 
 	const timerIdRef = useRef<NodeJS.Timeout>();
-	const [ selectedAnswer, setSelectedAnswer ] = useState<string | null>(() =>
+	const [ selectedAnswer, setSelectedAnswer ] = useState<number | null>(() =>
 	{
-		const store = getLocalStorage<string>("game-selectedAnswer");
+		const store = getLocalStorage<number>("game-selectedAnswer");
 
 		return store;
 	});
@@ -56,7 +59,7 @@ function Game()
 
 		for (let i = 0; i < areasCount; i++)
 		{
-			array.push(createQuestion(data[ city ].areas[ i ], Math.round(Math.random())));
+			array.push(createQuestion(data[ city ].areas[ i ], getRandomItem(AppCtx.selectedGameTypes)));
 		}
 
 		shuffleArray(array);
@@ -88,11 +91,14 @@ function Game()
 	}, [ currentQuestionIndex ]);
 
 	// Utils
-	function getRandomCity(withoutCity: CitiesNameType): CitiesNameType
+	function getRandomCity(withoutCity?: CitiesNameType): CitiesNameType
 	{
-		const cities = Object
-			.keys(data)
-			.filter((city) => city !== withoutCity) as CitiesNameType[];
+		let cities = Object.keys(data) as CitiesNameType[];
+
+		if (withoutCity !== undefined)
+		{
+			cities = cities.filter((city) => city !== withoutCity);
+		}
 
 		return getRandomItem(cities);
 	}
@@ -121,78 +127,101 @@ function Game()
 				const area1 = getRandomArea(city1);
 				const area2 = getRandomArea(city2, area1);
 
-				const answers = [
-					{ city: city, area: area },
-					{ city: city1, area: area1 },
-					{ city: city2, area: area2 }
+				const answers: QuestionType[ "answers" ] = [
+					{ text: area, description: city, isAnswer: true },
+					{ text: area1, description: city1 },
+					{ text: area2, description: city2 }
 				];
 
 				shuffleArray(answers);
 
-				return {
-					answers,
-					answer: area,
-					gameType
-				};
+				return { answers, gameType };
 			}
 			case GameType.ONE_WRONG: {
 				const badCity = getRandomCity(city);
 				const badArea = getRandomArea(badCity);
 
-				const answers = [
-					{ city, area },
-					{ city, area: getRandomArea(city, area) },
-					{ city: badCity, area: badArea }
+				const answers: QuestionType[ "answers" ] = [
+					{ text: area, description: city },
+					{ text: getRandomArea(city, area), description: city },
+					{ text: badArea, description: badCity, isAnswer: true }
 				];
 
 				shuffleArray(answers);
 
+				return { answers, gameType };
+			}
+			case GameType.TRUE_FALSE: {
+
+				const randomCity = (Math.round(Math.random()) === 0
+					? getRandomCity(city)
+					: city
+				);
+				const randomArea = (randomCity === city
+					? area
+					: getRandomArea(randomCity)
+				);
+
+				const answers: QuestionType[ "answers" ] = [
+					{
+						text: "Да",
+						isAnswer: (randomCity === city)
+					},
+					{
+						text: "Нет",
+						isAnswer: (randomCity !== city),
+						description: (randomCity !== city ? `${ randomArea } из ${ randomCity }` : undefined)
+					}
+				];
+
 				return {
 					answers,
-					answer: badArea,
+					data: { area },
 					gameType
 				};
 			}
 		}
 	}
 
-	function isCorrectAnswer(value: string): 1 | 0 | -1
+	function isCorrectAnswer(index: number): 1 | 0 | -1
 	{
 		if (selectedAnswer === null)
 		{
 			return -1;
 		}
 
-		if (value === currentQuestion.answer)
+		if (currentQuestion.answers[ index ].isAnswer === true)
 		{
 			return 1;
 		}
 
-		return value === selectedAnswer ? 0 : -1;
+		return index === selectedAnswer ? 0 : -1;
 	}
 
 	// Handles
-	function selectAnswer(value: string)
+	function selectAnswer(index: number)
 	{
 		if (selectedAnswer !== null)
 		{
 			return;
 		}
 
-		setSelectedAnswer(value);
+		setSelectedAnswer(index);
 
 		clearTimeout(timerIdRef.current);
 		if (AppCtx.settings.autoNextQuestion === true)
 		{
-			timerIdRef.current = setTimeout(() => nextQuestion(value), AUTO_NEXT_QUESTION_TIME);
+			timerIdRef.current = setTimeout(() => nextQuestion(index), AUTO_NEXT_QUESTION_TIME);
 		}
 	}
 
-	function nextQuestion(answer?: string)
+	function nextQuestion(index?: number)
 	{
 		clearTimeout(timerIdRef.current);
 
-		if ((selectedAnswer || answer) === currentQuestion.answer)
+		const answerIndex = (selectedAnswer ?? index) as number;
+
+		if (currentQuestion.answers[ answerIndex ].isAnswer === true)
 		{
 			AppCtx.setResult((prevState) =>
 			{
@@ -255,9 +284,11 @@ function Game()
 				textAlign: "center",
 				color: "#FFFFFF"
 			}}>
-				{currentQuestion!.gameType === GameType.ONE_CORRECT
+				{currentQuestion.gameType === GameType.ONE_CORRECT
 					? <>Выберите правильный район</>
-					: <>Выберите <i style={{ fontStyle: "italic" }}>НЕправильный</i> район</>
+					: currentQuestion.gameType === GameType.ONE_WRONG
+						? <>Выберите <i style={{ fontStyle: "italic" }}>НЕправильный</i> район</>
+						: <>Имеет ли район {currentQuestion.data!.area}?</>
 				}
 			</Box>
 
@@ -278,7 +309,7 @@ function Game()
 					textShadow: "2px 2px #000"
 				}
 			}}>
-				{[ 0, 1, 2 ].map((index) =>
+				{currentQuestion.answers.map((questionData, index) =>
 				{
 					return (
 						<ButtonStyled
@@ -286,11 +317,11 @@ function Game()
 							disableRipple
 							disableFocusRipple
 							disableTouchRipple
-							onClick={() => selectAnswer(currentQuestion!.answers[ index ].area)}
+							onClick={() => selectAnswer(index)}
 							className={
-								isCorrectAnswer(currentQuestion!.answers[ index ].area) === 1
+								isCorrectAnswer(index) === 1
 									? "answer--true"
-									: isCorrectAnswer(currentQuestion!.answers[ index ].area) === 0
+									: isCorrectAnswer(index) === 0
 										? "answer--false"
 										: ""
 							}
@@ -298,17 +329,19 @@ function Game()
 								flexDirection: "column",
 								gap: "2px",
 								borderLeft: (
-									currentQuestion.answer === currentQuestion!.answers[ index ].area && process.env.NODE_ENV === "development"
+									(questionData.isAnswer === true && process.env.NODE_ENV === "development")
 										? "1px solid red"
 										: "unset"
 								)
 							}}
 						>
-							<span>{currentQuestion!.answers[ index ].area}</span>
-							{selectedAnswer !== null &&
+							<span>{questionData.text}</span>
+							{(selectedAnswer !== null && questionData.description !== undefined) &&
 								(
 									<Zoom in={true} timeout={350}>
-										<span style={{ fontSize: "0.8rem", lineHeight: "0.8rem" }}>({currentQuestion!.answers[ index ].city})</span>
+										<span style={{ fontSize: "0.8rem", lineHeight: "0.8rem" }}>
+											({questionData.description})
+										</span>
 									</Zoom>
 								)
 							}
@@ -381,7 +414,7 @@ function Game()
 				>
 				</CustomIconButton>
 			</Box>
-		</Box >
+		</Box>
 	);
 }
 
