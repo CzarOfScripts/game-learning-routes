@@ -176,7 +176,7 @@ function Game()
 
 				return {
 					answers,
-					data: { area },
+					data: { area: randomArea },
 					gameType
 				};
 			}
