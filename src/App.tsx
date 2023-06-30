@@ -135,6 +135,7 @@ function App()
 				component="header"
 				sx={{
 					position: "sticky",
+					zIndex: 2,
 					top: "0px",
 					padding: "20px",
 					textAlign: "center",
