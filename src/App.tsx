@@ -8,8 +8,8 @@ import ScoreScreen from "components/ScoreScreen";
 import SelectCity from "components/SelectCity";
 import Wrapper from "components/Wrapper";
 import { CitiesNameType } from "data/data";
-import { Dispatch, SetStateAction, createContext, useLayoutEffect, useState } from "react";
-import { getLocalStorage, setLocalStorage } from "utils/localStorage";
+import { Dispatch, SetStateAction, createContext, useLayoutEffect, useMemo, useState } from "react";
+import { getLocalStorage, setLocalStorage, useLocalStorage } from "utils/localStorage";
 
 interface IAppContext
 {
@@ -38,11 +38,22 @@ interface ISettings
 	 * @default true
 	 */
 	autoNextQuestion: boolean;
+
+	/**
+	 * @default false
+	 */
+	instantAutoNextQuestion: boolean;
+	/**
+	 * @default true
+	 */
+	showCorrectAndIncorrectAnswers: boolean;
 }
 
 const defaultSettings: ISettings =
 {
-	autoNextQuestion: true
+	autoNextQuestion: true,
+	instantAutoNextQuestion: false,
+	showCorrectAndIncorrectAnswers: true
 };
 
 export const AppContext = createContext<IAppContext>({} as IAppContext);
@@ -50,29 +61,19 @@ export const AppContext = createContext<IAppContext>({} as IAppContext);
 function App()
 {
 	const [ isShowSettings, setIsShowSettings ] = useState<boolean>(false);
-	const [ selectedCity, setSelectedCity ] = useState<CitiesNameType | null>(() =>
-	{
-		const store = getLocalStorage<CitiesNameType | null>("game-selectedCity");
+	const [ selectedCity, setSelectedCity ] = useLocalStorage<CitiesNameType | null>("game-selectedCity", null);
+	const [ result, setResult ] = useLocalStorage<[ number, number ]>("game-result", [ 0, 0 ]);
+	const [ selectedGameTypes, setSelectedGameTypes ] = useLocalStorage<GameType[]>(
+		"game-selectedGameTypes",
+		[ GameType.ONE_CORRECT, GameType.ONE_WRONG, GameType.TRUE_FALSE ]
+	);
+	const [ isShowResult, setIsShowResult ] = useLocalStorage<boolean>("game-isShowResult", false);
 
-		return store;
-	});
-	const [ result, setResult ] = useState<[ number, number ]>(() =>
+	const [ settings, setSettings ] = useState<ISettings>(() =>
 	{
-		const store = getLocalStorage<[ number, number ]>("game-result");
+		const store = getLocalStorage<ISettings>("game-settings");
 
-		return store ?? [ 0, 0 ];
-	});
-	const [ selectedGameTypes, setSelectedGameTypes ] = useState<GameType[]>(() =>
-	{
-		const store = getLocalStorage<GameType[]>("game-selectedGameTypes");
-
-		return store ?? [ GameType.ONE_CORRECT, GameType.ONE_WRONG, GameType.TRUE_FALSE ];
-	});
-	const [ isShowResult, setIsShowResult ] = useState<boolean>(() =>
-	{
-		const store = getLocalStorage<boolean>("game-isShowResult");
-
-		return store ?? false;
+		return Object.assign({}, defaultSettings, store);
 	});
 	const [ timer, setTimer ] = useState<[ startTime: Date, endTime: Date ] | null>(() =>
 	{
@@ -82,29 +83,20 @@ function App()
 			? [ new Date(store[ 0 ]), new Date(store[ 1 ]) ]
 			: null;
 	});
-	const [ settings, setSettings ] = useState<ISettings>(() =>
-	{
-		const store = getLocalStorage<ISettings>("game-settings");
 
-		return Object.assign({}, defaultSettings, store);
-	});
+	const context = useMemo(() =>
+	{
+		return {
+			selectedCity, setSelectedCity,
+			result, setResult,
+			isShowResult, setIsShowResult,
+			timer, setTimer,
+			settings, setSettings,
+			selectedGameTypes, setSelectedGameTypes
+		};
+	}, [ isShowResult, result, selectedCity, selectedGameTypes, setIsShowResult, setResult, setSelectedCity, setSelectedGameTypes, settings, timer ]);
 
 	// Effects
-	useLayoutEffect(() =>
-	{
-		setLocalStorage("game-result", result);
-	}, [ result ]);
-
-	useLayoutEffect(() =>
-	{
-		setLocalStorage("game-isShowResult", isShowResult);
-	}, [ isShowResult ]);
-
-	useLayoutEffect(() =>
-	{
-		setLocalStorage("game-selectedCity", selectedCity);
-	}, [ selectedCity ]);
-
 	useLayoutEffect(() =>
 	{
 		setLocalStorage("game-timer", timer);
@@ -115,21 +107,9 @@ function App()
 		setLocalStorage("game-settings", settings);
 	}, [ settings ]);
 
-	useLayoutEffect(() =>
-	{
-		setLocalStorage("game-selectedGameTypes", selectedGameTypes);
-	}, [ selectedGameTypes ]);
-
 	// Render
 	return (
-		<AppContext.Provider value={{
-			selectedCity, setSelectedCity,
-			result, setResult,
-			isShowResult, setIsShowResult,
-			timer, setTimer,
-			settings, setSettings,
-			selectedGameTypes, setSelectedGameTypes
-		}}>
+		<AppContext.Provider value={context}>
 			<Box
 				className="header"
 				component="header"

@@ -1,16 +1,15 @@
 import { AppContext } from "App";
 import CheckboxStyled from "components/CheckboxStyled";
-import DialogStyled from "components/DialogStyled";
+import DialogStyled, { IDialogStyledProps } from "components/DialogStyled";
 import { ChangeEvent, useContext } from "react";
 
-export interface ISettingsModalProps
+export interface ISettingsModalProps extends Omit<IDialogStyledProps, "title" | "children">
 {
 	/**
 	 * @default false
 	 */
-	open: boolean;
+	readonly open: boolean;
 	onClose(event: {}, reason: "backdropClick" | "escapeKeyDown" | "closeButton"): void;
-	[ prop: string ]: any;
 }
 
 function SettingsModal({ open = false, onClose, ...props }: ISettingsModalProps)
@@ -42,6 +41,22 @@ function SettingsModal({ open = false, onClose, ...props }: ISettingsModalProps)
 				checkboxProps={{
 					checked: AppCtx.settings.autoNextQuestion,
 					onChange: onChangeCheckbox("autoNextQuestion")
+				}}
+			/>
+
+			<CheckboxStyled
+				label="Мгновенный авто переход"
+				checkboxProps={{
+					checked: AppCtx.settings.instantAutoNextQuestion,
+					onChange: onChangeCheckbox("instantAutoNextQuestion")
+				}}
+			/>
+
+			<CheckboxStyled
+				label="Показывать правильный и не правильный ответ"
+				checkboxProps={{
+					checked: AppCtx.settings.showCorrectAndIncorrectAnswers,
+					onChange: onChangeCheckbox("showCorrectAndIncorrectAnswers")
 				}}
 			/>
 		</DialogStyled>

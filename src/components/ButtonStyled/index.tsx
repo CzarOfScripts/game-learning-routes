@@ -3,8 +3,8 @@ import { Button } from "@mui/material";
 
 const ButtonStyled = styled(Button)(({ disabled }) =>
 ({
-	color: (disabled === true ? "#ACACAC" : "#FFFFFF"),
-	backgroundColor: (disabled === true ? "#151515" : "#252525"),
+	color: (disabled === true ? "#ACACAC" : "#FFFFFF") + "!important",
+	backgroundColor: (disabled === true ? "#151515" : "#252525") + "!important",
 	font: "400 20px/23px Consolas",
 	textTransform: "none",
 	overflow: "hidden",

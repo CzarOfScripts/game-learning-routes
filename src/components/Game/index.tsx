@@ -211,7 +211,10 @@ function Game()
 		clearTimeout(timerIdRef.current);
 		if (AppCtx.settings.autoNextQuestion === true)
 		{
-			timerIdRef.current = setTimeout(() => nextQuestion(index), AUTO_NEXT_QUESTION_TIME);
+			timerIdRef.current = setTimeout(
+				() => nextQuestion(index),
+				AppCtx.settings.instantAutoNextQuestion ? 0 : AUTO_NEXT_QUESTION_TIME
+			);
 		}
 	}
 
@@ -318,12 +321,17 @@ function Game()
 							disableFocusRipple
 							disableTouchRipple
 							onClick={() => selectAnswer(index)}
+							disabled={selectedAnswer !== null && selectedAnswer !== index}
 							className={
-								isCorrectAnswer(index) === 1
-									? "answer--true"
-									: isCorrectAnswer(index) === 0
-										? "answer--false"
-										: ""
+								AppCtx.settings.showCorrectAndIncorrectAnswers === false
+									? ""
+									: (
+										isCorrectAnswer(index) === 1
+											? "answer--true"
+											: isCorrectAnswer(index) === 0
+												? "answer--false"
+												: ""
+									)
 							}
 							sx={{
 								flexDirection: "column",
